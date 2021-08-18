@@ -97,7 +97,6 @@ $res=mysqli_query($connection, $query);
 		<script type="text/javascript">
 	$(document).ready(function(){
 				$('#place_order<?= $a; ?>').on('click', function() {
-					alert('jsnsjsdvn');
 				var p_id = $('#p_ids<?= $a; ?>').val();
 				//alert(p_id);   
 				var total_amt = $('#t').val();
@@ -108,7 +107,6 @@ $res=mysqli_query($connection, $query);
         		var arr = img_src.split('/');
         		var file = arr[arr.length-1];
         		var date = $("#datetime").val();
-        		alert(date);   //60
         		$.ajax({
 		                url: "ajax.php",
 		                type: "POST",
