@@ -31,7 +31,7 @@ if($_POST['action'] =='insert_order'){
     $prod_qty= $_POST['prod_qty'];
     $file =  $_POST['file'];
     $date =  $_POST['date'];
-    $query2 = "insert into orders(user_id,prod_id,weight,total_price,file,scheduled_date,status,date) values('$user_id','$prod_id','$prod_qty','$tamt','$file','$date',1,now())";
+    $query2 = "insert into orders(user_id,prod_id,weight,total_price,file,scheduled_date,status,date) values('$user_id','$prod_id','$prod_qty','$tamt','$file','$date',2,now())";
     $st=mysqli_query($connection, $query2);
     die();
 }
