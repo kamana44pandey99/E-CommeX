@@ -23,15 +23,7 @@ if($_POST['action'] == 'price'){
     }
 }
 
-
-if($_POST['action'] == 'update_status'){
-    $id = $_POST["id"];
-    mysqli_query($connection,"update orders set status='0' where id = '$id'");
-}
-
-
-
-if($_POST['action'] =='insert_order')
+if($_POST['action'] =='insert_order'){
 
     $prod_id =  $_POST['prod_id'];
     $user_id = $_SESSION['user_id'];
@@ -41,8 +33,18 @@ if($_POST['action'] =='insert_order')
     $date =  $_POST['date'];
     $query2 = "insert into orders(user_id,prod_id,weight,total_price,file,scheduled_date,status,date) values('$user_id','$prod_id','$prod_qty','$tamt','$file','$date',1,now())";
     $st=mysqli_query($connection, $query2);
-    echo $st;
-    echo $query2;
- die();
+    die();
+}
+
+if($_POST['action'] == 'update_status'){
+    $id = $_POST["id"];
+    mysqli_query($connection,"update orders set status='0' where id = '$id'");
+}
+
+if($_POST['action'] == 'delete_cart'){
+    $product_id = $_POST["prod_id"];
+    mysqli_query($connection,"DELETE FROM `cart` WHERE prod_id = '$product_id'");
+    echo("DELETE FROM `cart` WHERE id = '$product_id'");
+}
 
 ?>
