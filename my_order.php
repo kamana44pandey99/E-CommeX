@@ -53,8 +53,6 @@ $results=mysqli_query($connection, $select);
 			$(document).ready(function(){
 				$('#cancel').on('click', function() {
 				var id = $('#hidden').val();
-        		
-					alert(id);
         		$.ajax({
 		                url: "ajax.php",
 		                type: "POST",
