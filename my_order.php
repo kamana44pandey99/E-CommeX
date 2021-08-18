@@ -2,7 +2,7 @@
 session_start();
 include("DB.php");
 $uid = $_SESSION['user_id'];
-$select="select * from orders as o left join products as p on o.prod_id=p.p_id where o.user_id = '$uid' order by o.id desc";
+$select="select * from orders as o left join products as p on o.prod_id=p.p_id where o.user_id = '$uid' order by o.status desc";
 $results=mysqli_query($connection, $select);
 
 ?>
@@ -23,7 +23,7 @@ $results=mysqli_query($connection, $select);
 <?php
     while($rows=mysqli_fetch_assoc($results)){
     	//print_r($rows);
-		         if($rows['status'] == 1 ){
+		         if($rows['status'] == 2 ){
 		         ?>
     	     <div class="card mt-5 row">
 		                    <div class="card-header ">
@@ -34,7 +34,7 @@ $results=mysqli_query($connection, $select);
 			                    		</div>
 			                    		<div class="col-md-6">
 			                    			<b>Id : <?= $rows['id']; ?></b><br>
-			                    			<b>Product : <?= $rows['p_id']; ?></b><br/>
+			                    			<b>Product : <?= $rows['p_name']; ?></b><br/>
 			                    			<b>Total Price : <?= $rows['price']; ?></b><br/>
 			                    			<b>Scheduled Date : <?= $rows['scheduled_date']; ?></b>
 			                    		</div>
@@ -48,7 +48,7 @@ $results=mysqli_query($connection, $select);
 		         </div>
 		         <?php
 		       }
-		         if($rows['status'] == 2){
+		         if($rows['status'] == 1){
 		         ?>
 		         <div class="card mt-5 row">
 		                    <div class="card-header ">
@@ -59,7 +59,7 @@ $results=mysqli_query($connection, $select);
 			                    		</div>
 			                    		<div class="col-md-6">
 			                    			<b>Id : <?= $rows['id']; ?></b><br>
-			                    			<b>Product : <?= $rows['p_id']; ?></b><br/>
+			                    			<b>Product : <?= $rows['p_name']; ?></b><br/>
 			                    			<b>Total Price : <?= $rows['price']; ?></b><br/>
 			                    			<b>Scheduled Date : <?= $rows['scheduled_date']; ?></b>
 			                    		</div>
@@ -84,7 +84,7 @@ $results=mysqli_query($connection, $select);
 			                    		</div>
 			                    		<div class="col-md-6">
 			                    			<b>Id : <?= $rows['id']; ?></b><br>
-			                    			<b>Product : <?= $rows['p_id']; ?></b><br/>
+			                    			<b>Product : <?= $rows['p_name']; ?></b><br/>
 			                    			<b>Total Price : <?= $rows['price']; ?></b><br/>
 			                    			<b>Scheduled Date : <?= $rows['scheduled_date']; ?></b>
 			                    		</div>
