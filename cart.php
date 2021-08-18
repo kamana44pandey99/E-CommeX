@@ -49,6 +49,8 @@ $res=mysqli_query($connection, $query);
 			                    		</div>
 			                    		<input type="hidden" id="p_ids<?= $a; ?>" name="hidden" value="<?php echo $row['p_id'];?>">
 		                          		<button type="submit" name="place_order<?= $a; ?>" id="place_order<?= $a; ?>" class="btn btn-primary from-control">Place  Order</button>
+		                          		<button type="submit" name="delete<?= $a; ?>" id="delete<?= $a; ?>" class="btn btn-primary from-control">delete</button>
+
 		                    		</form>
 		                    	</div>
 		                    	
@@ -60,14 +62,13 @@ $res=mysqli_query($connection, $query);
 			<script>
 			function add<?php echo $a; ?>()
 			{
-				var key=1;
-				var a=$(".row<?php echo $a; ?> #q<?= $a; ?>").val();			
+				var a=$(".row<?= $a; ?> #q<?= $a; ?>").val();			
 				a=Number(a);
 				var result=a+1;
 				$(".row<?php echo $a; ?> #q<?= $a; ?>").val(result);
 				//var p=$("#p<?= $a; ?>").html();
 				//$("#p<?= $a; ?>").html(parseInt(p)+<?php echo $row['price'] ?>);
-				var amount=$('.row<?php echo $a; ?> #t').val();
+				var amount=$('.row<?= $a; ?> #t').val();
 				//alert(amount);
 				$('.row<?php echo $a; ?> #t').val(parseInt(amount)+<?php echo $row['price'] ?>);
 			}
@@ -122,7 +123,27 @@ $res=mysqli_query($connection, $query);
 		                success: function(result){
 		                    alert('Your Order Has Placed Succesfully');
 		                    console.log(result);
-		                    alert(result);
+		                    // alert(result);
+		            }
+		        });
+		    });
+       	});	
+
+		$(document).ready(function(){
+				$('#delete<?= $a; ?>').on('click', function() {
+				var p_id = $('#p_ids<?= $a; ?>').val();
+        		$.ajax({
+		                url: "ajax.php",
+		                type: "POST",
+		                data: {
+		                    prod_id: p_id,
+		                    action:"delete_cart"
+		                },
+		                cache: false,
+		                success: function(result){
+		                    alert('deleted');
+		                    console.log(result);
+		                     alert(result);
 		            }
 		        });
 		    });
@@ -136,9 +157,3 @@ $res=mysqli_query($connection, $query);
 <!-- <p class="text-center"><?php echo Date("d-m-Y h:i:s A",time()); ?></p> -->
 </body>
 </html>
-
-
-
-
-		
-				
