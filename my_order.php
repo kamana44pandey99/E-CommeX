@@ -2,7 +2,7 @@
 session_start();
 include("DB.php");
 $uid = $_SESSION['user_id'];
-$select="select * from orders as o left join products as p on o.prod_id=p.p_id where o.user_id = '$uid' AND o.status='1'";
+$select="select * from orders as o left join products as p on o.prod_id=p.p_id where o.user_id = '$uid' order by o.id desc";
 $results=mysqli_query($connection, $select);
 
 ?>
@@ -16,16 +16,19 @@ $results=mysqli_query($connection, $select);
 
 </head>
 <body>
-<h1>My All Orders</h1>
+
 	<a href="logout.php"><button class="btn btn-primary">LOGOUT</button></a>
     <a href="cart.php?id=<?= $uid; ?>"><button class="btn btn-primary">View Cart</button></a>
+    <h1>My All Orders</h1>
 <?php
     while($rows=mysqli_fetch_assoc($results)){
     	//print_r($rows);
-    	?>
+		         if($rows['status'] == 1 ){
+		         ?>
     	     <div class="card mt-5 row">
 		                    <div class="card-header ">
 		                    	<div class="card-body ">
+		                    		<h2>Current</h2>
 			                    		<div class="col-md-6">
 			                    			<img src="upload/<?= $rows['file']; ?>" style="width:200px;height: 200px;">
 			                    		</div>
@@ -42,7 +45,58 @@ $results=mysqli_query($connection, $select);
 		                    	</div>
 		                    	
 		                    </div>
-		            	</div>
+		         </div>
+		         <?php
+		       }
+		         if($rows['status'] == 2){
+		         ?>
+		         <div class="card mt-5 row">
+		                    <div class="card-header ">
+		                    	<div class="card-body ">
+		                    		<h2>Completed</h2>
+			                    		<div class="col-md-6">
+			                    			<img src="upload/<?= $rows['file']; ?>" style="width:200px;height: 200px;">
+			                    		</div>
+			                    		<div class="col-md-6">
+			                    			<b>Id : <?= $rows['id']; ?></b><br>
+			                    			<b>Product : <?= $rows['p_id']; ?></b><br/>
+			                    			<b>Total Price : <?= $rows['price']; ?></b><br/>
+			                    			<b>Scheduled Date : <?= $rows['scheduled_date']; ?></b>
+			                    		</div>
+			                    		<form method="post">
+			                    			<input type="hidden" name="hidden" id="hidden" value="<?= $rows['id'];?>">
+																<p class="text-success">Completed</p>			                    		
+			                    		</form>
+		                    	</div>
+		                    	
+		                    </div>
+		         </div>
+		       <?php } 
+		       if($rows['status'] == 0)
+		       {
+		       ?>
+		          <div class="card mt-5 row">
+		                    <div class="card-header ">
+		                    	<div class="card-body ">
+		                    		<h2>Cancelled</h2>
+			                    		<div class="col-md-6">
+			                    			<img src="upload/<?= $rows['file']; ?>" style="width:200px;height: 200px;">
+			                    		</div>
+			                    		<div class="col-md-6">
+			                    			<b>Id : <?= $rows['id']; ?></b><br>
+			                    			<b>Product : <?= $rows['p_id']; ?></b><br/>
+			                    			<b>Total Price : <?= $rows['price']; ?></b><br/>
+			                    			<b>Scheduled Date : <?= $rows['scheduled_date']; ?></b>
+			                    		</div>
+			                    		<form method="post">
+			                    			<input type="hidden" name="hidden" id="hidden" value="<?= $rows['id'];?>">
+																<p class="text-danger">Cancelled</p>			                    		
+															</form>
+		                    	</div>
+		                    	
+		                    </div>
+		         </div>
+		       <?php } ?>
 		        	</div>
   <?php
     }
@@ -53,7 +107,7 @@ $results=mysqli_query($connection, $select);
 			$(document).ready(function(){
 				$('#cancel').on('click', function() {
 				var id = $('#hidden').val();
-        		$.ajax({
+     		$.ajax({
 		                url: "ajax.php",
 		                type: "POST",
 		                data: {
